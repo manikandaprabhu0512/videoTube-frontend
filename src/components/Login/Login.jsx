@@ -12,6 +12,7 @@ function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { data: user, isLoading } = useCurrentUser();
 
@@ -135,7 +136,7 @@ function Login() {
           </svg>
           <input
             className="w-full outline-none bg-transparent py-2.5"
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -143,8 +144,12 @@ function Login() {
         </div>
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-1">
-            <input id="checkbox" type="checkbox" />
-            <label htmlFor="checkbox">Remember me</label>
+            <input
+              id="checkbox"
+              type="checkbox"
+              onChange={(e) => setShowPassword(e.target.checked)}
+            />
+            <label htmlFor="checkbox">Show Password</label>
           </div>
           <a className="text-blue-600 underline" href="#">
             Forgot Password
