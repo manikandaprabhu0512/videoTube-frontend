@@ -3,7 +3,6 @@ import "./index.css";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import { Login } from "./components";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
 import Videos from "./components/Home/Videos";
@@ -21,6 +20,7 @@ import SignUp from "./components/Pages/SignUp";
 import SettingsOptions from "./components/Pages/SettingsOptions";
 import Settings from "./components/Pages/Settings";
 import ChangePassword from "./components/Pages/ChangePassword";
+import Login from "./components/Login/Login.jsx";
 
 const queryClient = new QueryClient();
 
