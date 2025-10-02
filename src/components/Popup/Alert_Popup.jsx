@@ -8,7 +8,7 @@ import {
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { usedeleteVideo } from "../hooks/useVideo.js";
 import Loader from "../Loader";
-import { userlogout } from "../hooks/useUSer.js";
+import { userlogout } from "../hooks/useUser.js";
 
 function Alert_Popup({
   isOpen,
