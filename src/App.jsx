@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import Popup_Manager from "./components/Popup/Popup_Manager";
 import axios from "axios";
 import Loader from "./components/Loader";
-import { showPopup } from "./features/popup";
+import { showPopup } from "./features/popup.js";
 
 function App() {
   const dispatch = useDispatch();

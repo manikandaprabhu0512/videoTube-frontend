@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "./Loader";
-import { fetchUserData } from "../Api/users";
+import { fetchUserData } from "../Api/users.js";
 
 export default function ProtectedRoute({ children }) {
   const {

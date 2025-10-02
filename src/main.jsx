@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import { Login } from "./components";
 import { Provider } from "react-redux";
-import store from "./store/store";
+import store from "./store/store.js";
 import Videos from "./components/Home/Videos";
 import VideoGramLayout from "./layouts/VideoGramLayout";
 import WatchCard from "./components/Cards/WatchCard";

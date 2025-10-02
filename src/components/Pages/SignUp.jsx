@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../../Api/users";
+import { registerUser } from "../../Api/users.js";
 import Loader from "../Loader";
 import { useDispatch } from "react-redux";
-import { showPopup } from "../../features/popup";
+import { showPopup } from "../../features/popup.js";
 import { Change } from "../../assets/Icons";
 
 function SignUp() {

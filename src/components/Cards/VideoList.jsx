@@ -1,7 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import React from "react";
-import { fetchAllVideosByUserName } from "../../Api/videos";
-import { timesAgo } from "../../utils/timesago";
+import { timesAgo } from "../../utils/timesago.js";
 
 function VideoList({ url, title, duration, createdAt, views, description }) {
   return (

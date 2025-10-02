@@ -6,7 +6,7 @@ import {
   useRemoveCoverImage,
   useUpdateAvatar,
   useUpdateCoverImage,
-} from "../hooks/Users.Hook";
+} from "../hooks/Users.Hook.js";
 import {
   ArrowIcon,
   Change,
@@ -18,7 +18,7 @@ import Loader from "../Loader";
 import Header from "../Header/Header";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { showPopup } from "../../features/popup";
+import { showPopup } from "../../features/popup.js";
 
 function Settings() {
   const dispatch = useDispatch();

@@ -2,9 +2,9 @@ import { useState } from "react";
 import Loader from "../Loader";
 import { ArrowIcon, HomeIcon } from "../../assets/Icons";
 import { Link, useNavigate } from "react-router-dom";
-import { useChangeUserPassword, useCurrentUser } from "../hooks/Users.Hook";
+import { useChangeUserPassword, useCurrentUser } from "../hooks/Users.Hook.js";
 import { useDispatch } from "react-redux";
-import { showPopup } from "../../features/popup";
+import { showPopup } from "../../features/popup.js";
 
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState("");

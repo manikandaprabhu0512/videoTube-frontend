@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { login } from "../../features/auth";
+import { login } from "../../features/auth.js";
 import { useEffect, useState } from "react";
-import API from "../../Api/api";
+import API from "../../Api/api.js";
 import Loader from "../Loader";
-import { showPopup } from "../../features/popup";
-import { useCurrentUser } from "../hooks/Users.Hook";
+import { showPopup } from "../../features/popup.js";
+import { useCurrentUser } from "../hooks/Users.Hook.js";
 
 function Login() {
   const dispatch = useDispatch();

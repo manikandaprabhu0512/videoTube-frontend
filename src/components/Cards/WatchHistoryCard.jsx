@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { timesAgo } from "../../utils/timesago";
+import { timesAgo } from "../../utils/timesago.js";
 
 function WatchHistoryCard({
   url,

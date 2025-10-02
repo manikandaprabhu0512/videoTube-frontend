@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-  deleteVideo,
   fetchVideoById,
   toggleVideo,
   updateThumbnail,
@@ -12,7 +11,7 @@ import ReactPlayer from "react-player";
 import { useEffect, useState } from "react";
 import { Change, DeleteBtn, EditIcon, SaveFileBtn } from "../../assets/Icons";
 import { useDispatch } from "react-redux";
-import { showPopup } from "../../features/popup";
+import { showPopup } from "../../features/popup.js";
 
 function EditVideo() {
   const [thumbnail, setThumbnail] = useState("");

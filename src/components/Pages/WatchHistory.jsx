@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
-import { getUserWatchHistory } from "../../Api/users";
+import { getUserWatchHistory } from "../../Api/users.js";
 import Loader from "../Loader";
 import WatchHistoryCard from "../Cards/WatchHistoryCard";
 

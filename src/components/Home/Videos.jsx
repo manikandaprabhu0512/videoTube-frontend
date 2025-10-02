@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import VideoCard from "../Cards/VideoCard";
 import Loader from "../Loader";
-import { useFetchAllVideos } from "../hooks/Videos.hook";
+import { useFetchAllVideos } from "../hooks/Videos.Hook.js";
 
 function Videos() {
   const { data: videos, isLoading } = useFetchAllVideos();

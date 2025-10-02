@@ -1,7 +1,8 @@
 import React from "react";
+import { useCurrentUser } from "../hooks/Users.Hook.js";
 
 function UserProfile() {
-  const { data: user, isLoading } = currentUser();
+  const { data: user, isLoading } = useCurrentUser();
 
   if (isLoading) return <Loader isLoading={true} />;
 

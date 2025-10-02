@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { publishVideo } from "../../Api/videos";
+import { publishVideo } from "../../Api/videos.js";
 import { useDispatch } from "react-redux";
-import { showPopup } from "../../features/popup";
+import { showPopup } from "../../features/popup.js";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import SomethingWentWrong_Popup from "../Popup/SomethingWentWrong_Popup";
 import Loader from "../Loader";
 
 function UploadVideo() {

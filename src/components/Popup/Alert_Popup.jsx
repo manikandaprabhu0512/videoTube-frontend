@@ -6,9 +6,9 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { usedeleteVideo } from "../hooks/Videos.hook";
+import { usedeleteVideo } from "../hooks/Videos.hook.js";
 import Loader from "../Loader";
-import { userlogout } from "../hooks/Users.Hook";
+import { userlogout } from "../hooks/Users.Hook.js";
 
 function Alert_Popup({
   isOpen,

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { NavLink } from "react-router-dom";
-import { fetchUserData } from "../../Api/users";
+import { fetchUserData } from "../../Api/users.js";
 import Loader from "../Loader";
 import { useSelector } from "react-redux";
 import {

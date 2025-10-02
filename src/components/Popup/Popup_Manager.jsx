@@ -1,10 +1,9 @@
 import React from "react";
 import Successful_Popup from "./Successful_Popup";
 import { useDispatch, useSelector } from "react-redux";
-import { hidePopup } from "../../features/popup";
+import { hidePopup } from "../../features/popup.js";
 import Alert_Popup from "./Alert_Popup";
 import SomethingWentWrong_Popup from "./SomethingWentWrong_Popup";
-import { useNavigate } from "react-router-dom";
 
 const componentsMap = {
   Successful_Popup,

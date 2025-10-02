@@ -1,12 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useParams } from "react-router-dom";
 import Loader from "../Loader";
 import Container from "../Container/Container";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addWatchHistory, fetchVideoById } from "../../Api/videos";
-import { useDispatch, useSelector } from "react-redux";
+import { addWatchHistory, fetchVideoById } from "../../Api/videos.js";
+import { useDispatch } from "react-redux";
 import { toggleSideBar } from "../../features/sidebar";
 
 function WatchCard() {

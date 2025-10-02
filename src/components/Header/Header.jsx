@@ -2,7 +2,7 @@ import Loader from "../Loader";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toggleSideBar } from "../../features/sidebar";
-import { useCurrentUser } from "../hooks/Users.Hook";
+import { useCurrentUser } from "../hooks/Users.Hook.js";
 
 function Header() {
   const { data: user, isLoading } = useCurrentUser();
