@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../../features/themeChange";
 import { showPopup } from "../../features/popup.js";
 import { Link } from "react-router-dom";
-import { useCurrentUser } from "../hooks/Users.Hook.js";
+import { useCurrentUser } from "../hooks/useUSer.js";
 import Loader from "../Loader";
 
 function SettingsOptions() {

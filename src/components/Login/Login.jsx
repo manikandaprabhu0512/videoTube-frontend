@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import API from "../../Api/api.js";
 import Loader from "../Loader";
 import { showPopup } from "../../features/popup.js";
-import { useCurrentUser } from "../hooks/Users.Hook.js";
+import { useCurrentUser } from "../hooks/useUSer.js";
 
 function Login() {
   const dispatch = useDispatch();

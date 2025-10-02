@@ -6,7 +6,7 @@ import {
   useRemoveCoverImage,
   useUpdateAvatar,
   useUpdateCoverImage,
-} from "../hooks/Users.Hook.js";
+} from "../hooks/useUser.js";
 import {
   ArrowIcon,
   Change,

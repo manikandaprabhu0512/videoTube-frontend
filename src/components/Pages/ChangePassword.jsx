@@ -2,7 +2,7 @@ import { useState } from "react";
 import Loader from "../Loader";
 import { ArrowIcon, HomeIcon } from "../../assets/Icons";
 import { Link, useNavigate } from "react-router-dom";
-import { useChangeUserPassword, useCurrentUser } from "../hooks/Users.Hook.js";
+import { useChangeUserPassword, useCurrentUser } from "../hooks/useUSer.js";
 import { useDispatch } from "react-redux";
 import { showPopup } from "../../features/popup.js";
 

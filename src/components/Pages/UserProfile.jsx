@@ -1,5 +1,5 @@
 import React from "react";
-import { useCurrentUser } from "../hooks/Users.Hook.js";
+import { useCurrentUser } from "../hooks/useUSer.js";
 
 function UserProfile() {
   const { data: user, isLoading } = useCurrentUser();
