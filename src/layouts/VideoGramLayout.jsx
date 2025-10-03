@@ -8,11 +8,9 @@ function VideoGramLayout() {
   return (
     <div>
       <Header />
-      <div className="flex">
+      <div>
+        <div>{/* <HomeSideBar /> */}</div>
         <div>
-          <HomeSideBar />
-        </div>
-        <div className="w-full p-4">
           <Outlet />
         </div>
       </div>

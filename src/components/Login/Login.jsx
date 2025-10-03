@@ -21,7 +21,7 @@ function Login() {
   if (user) return <Navigate to={`/${user.username}`} replace />;
 
   useEffect(() => {
-    document.title = "Videogram - Login";
+    document.title = "Videotube - Login";
   }, []);
 
   const handleSubmit = async (e) => {

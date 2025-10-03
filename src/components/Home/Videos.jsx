@@ -7,7 +7,7 @@ function Videos() {
   const { data: videos, isLoading } = useFetchAllVideos();
 
   useEffect(() => {
-    document.title = "VideoGram - Home";
+    document.title = "Videotube - Home";
   }, []);
 
   if (isLoading) return <Loader isLoading={true} />;

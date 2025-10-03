@@ -6,8 +6,6 @@ export const fetchUserData = async () => {
 
     return res.data.data;
   } catch (error) {
-    console.log("Error:", error);
-
     throw error || null;
   }
 };
