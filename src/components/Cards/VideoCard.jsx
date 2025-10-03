@@ -29,7 +29,7 @@ function VideoCard({
           <div className="relative mr-2">
             <img
               className="h-8 w-8 rounded-full"
-              src={avatar}
+              src={avatar || "/dummy-avatar.png"}
               alt="userImage2"
             />
           </div>
