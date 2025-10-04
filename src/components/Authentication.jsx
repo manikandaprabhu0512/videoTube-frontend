@@ -7,7 +7,7 @@ export default function ProtectedRoute({ children }) {
 
   if (isLoading) return <Loader isLoading={true} />;
 
-  if (isError || !user) {
+  if (!user) {
     return <Navigate to="/" replace />;
   }
 
