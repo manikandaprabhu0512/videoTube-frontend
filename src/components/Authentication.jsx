@@ -1,18 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import Loader from "./Loader";
-import { fetchUserData } from "../Api/users.js";
+import { useCurrentUser } from "./hooks/useUser.js";
 
 export default function ProtectedRoute({ children }) {
-  const {
-    data: user,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["user"],
-    queryFn: fetchUserData,
-    // retry: false,
-  });
+  const { data: user, isLoading } = useCurrentUser();
 
   if (isLoading) return <Loader isLoading={true} />;
 
