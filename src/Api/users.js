@@ -6,11 +6,10 @@ export const fetchUserData = async () => {
       withCredentials: true,
     });
 
-    return res.data.data;
+    const data = res?.data?.data || null;
+    return data;
   } catch (error) {
-    console.error("error: ", error);
-
-    throw error;
+    return null;
   }
 };
 
