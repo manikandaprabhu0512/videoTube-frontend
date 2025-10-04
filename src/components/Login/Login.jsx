@@ -3,9 +3,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { login } from "../../features/auth.js";
 import { useEffect, useState } from "react";
 import API from "../../Api/api.js";
-import Loader from "../Loader";
 import { showPopup } from "../../features/popup.js";
-import { useCurrentUser } from "../hooks/useUser.js";
 
 function Login() {
   const dispatch = useDispatch();
@@ -14,15 +12,18 @@ function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const { data: user, isLoading } = useCurrentUser();
-
-  if (isLoading) return <Loader isLoading={true} />;
-
-  if (user) return <Navigate to={`/${user.username}`} replace />;
-
   useEffect(() => {
     document.title = "Videotube - Login";
   }, []);
+
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem("auth") || "null");
+  } catch (e) {
+    user = null;
+  }
+
+  if (user) return <Navigate to={`/${user?.username}`} replace />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

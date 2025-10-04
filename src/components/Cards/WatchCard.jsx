@@ -4,9 +4,7 @@ import { useParams } from "react-router-dom";
 import Loader from "../Loader";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addWatchHistory, fetchVideoById } from "../../Api/videos.js";
-import { useDispatch } from "react-redux";
 import { timesAgo } from "../../utils/timesago.js";
-import { useFetchAllVideos } from "../hooks/useVideo.js";
 import { useChannelSubscriber } from "../hooks/useSubscription.js";
 import { Dislike, Like } from "../../assets/Icons.jsx";
 
@@ -27,7 +25,7 @@ function WatchCard() {
     });
 
   const { data: channelSubscriber, isLoading: channelSubscriberLoading } =
-    useChannelSubscriber({ id: user._id });
+    useChannelSubscriber({ id: user?._id });
 
   useEffect(() => {
     if (video) {
