@@ -18,7 +18,6 @@ export const useCurrentUser = () => {
     queryKey: ["user"],
     queryFn: fetchUserData,
     enabled: !!localStorage.getItem("auth"),
-    retry: false,
   });
 };
 

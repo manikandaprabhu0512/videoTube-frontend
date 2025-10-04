@@ -5,8 +5,8 @@ export const fetchUserData = async () => {
     const res = await API.get(`/users/getCurrentUser`, {
       withCredentials: true,
     });
-
     const data = res?.data?.data || null;
+
     return data;
   } catch (error) {
     return null;

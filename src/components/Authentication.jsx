@@ -4,7 +4,6 @@ import { useCurrentUser } from "./hooks/useUser.js";
 
 export default function ProtectedRoute({ children }) {
   const { data: user, isLoading } = useCurrentUser();
-
   if (isLoading) return <Loader isLoading={true} />;
 
   if (!user) {
