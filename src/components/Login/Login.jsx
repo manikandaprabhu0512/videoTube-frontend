@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { login } from "../../features/auth.js";
 import { useEffect, useState } from "react";
 import API from "../../Api/api.js";
+import Loader from "../Loader";
 import { showPopup } from "../../features/popup.js";
 
 function Login() {
@@ -16,14 +17,18 @@ function Login() {
     document.title = "Videotube - Login";
   }, []);
 
-  let user = null;
-  try {
-    user = JSON.parse(localStorage.getItem("auth") || "null");
-  } catch (e) {
-    user = null;
-  }
+  const [authChecked, setAuthChecked] = useState(false);
 
-  if (user) return <Navigate to={`/${user?.username}`} replace />;
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("auth"));
+    if (user) {
+      navigate(`/${user.username}`, { replace: true });
+    } else {
+      setAuthChecked(true);
+    }
+  }, [navigate]);
+
+  if (!authChecked) return <Loader isLoading={true} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,7 +46,7 @@ function Login() {
       if (res.status === 200) {
         localStorage.setItem("auth", JSON.stringify(res.data.data));
         dispatch(login({ username: username }));
-        navigate(`/${res?.data?.data.username}`);
+        navigate(`/${res.data.data.username}`);
       }
       if (res.status == 400) {
         dispatch(
