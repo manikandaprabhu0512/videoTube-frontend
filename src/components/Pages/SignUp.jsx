@@ -34,7 +34,7 @@ function SignUp() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Videogram | Sign Up";
+    document.title = "Videotube | Sign Up";
   }, []);
 
   const { mutate: registerNewUser, isPending } = useMutation({

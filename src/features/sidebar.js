@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  visible: false,
+  visible: true,
   activeTab: "",
 };
 

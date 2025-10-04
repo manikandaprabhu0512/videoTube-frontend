@@ -21,7 +21,7 @@ function App() {
   }, [darkMode]);
 
   useEffect(() => {
-    document.title = "VideoGram";
+    document.title = "Videotube";
 
     (async () => {
       try {
