@@ -41,7 +41,7 @@ function Login() {
       if (res.status === 200) {
         localStorage.setItem("auth", JSON.stringify(res.data.data));
         dispatch(login({ username: username }));
-        navigate(`/${res.data.data.username}`);
+        navigate(`/${res?.data?.data.username}`);
       }
       if (res.status == 400) {
         dispatch(

@@ -2,11 +2,15 @@ import API from "./api";
 
 export const fetchUserData = async () => {
   try {
-    const res = await API.get(`/users/getCurrentUser`);
+    const res = await API.get(`/users/getCurrentUser`, {
+      withCredentials: true,
+    });
 
     return res.data.data;
   } catch (error) {
-    throw error || null;
+    console.error("error: ", error);
+
+    throw error;
   }
 };
 
@@ -29,8 +33,6 @@ export const registerUser = async ({
   coverFile,
   biography,
 }) => {
-  console.log(avatarFile);
-
   const formData = new FormData();
   formData.append("username", username);
   formData.append("fullName", fullName);

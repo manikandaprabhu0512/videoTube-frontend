@@ -45,7 +45,7 @@ export const publishVideo = async ({
     });
     return res;
   } catch (error) {
-    console.log("Error: ", error);
+    throw error;
   }
 };
 
