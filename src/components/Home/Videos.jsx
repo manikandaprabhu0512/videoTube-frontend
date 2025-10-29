@@ -2,12 +2,19 @@ import { useEffect } from "react";
 import VideoCard from "../Cards/VideoCard";
 import Loader from "../Loader";
 import { useFetchAllVideos } from "../hooks/useVideo.js";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleSideBar } from "../../features/sidebar.js";
 
 function Videos() {
+  const dispatch = useDispatch();
+
+  const Open = useSelector((state) => state.sidebar.visible);
+
   const { data: videos, isLoading } = useFetchAllVideos();
 
   useEffect(() => {
     document.title = "Videotube - Home";
+    if (Open) dispatch(toggleSideBar());
   }, []);
 
   if (isLoading) return <Loader isLoading={true} />;
@@ -15,14 +22,14 @@ function Videos() {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 px-5 justify-items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center">
         {videos.docs.map((video) => (
           <div key={video._id}>
             <VideoCard
               url={video.thumbnail.url}
               title={video.title}
               duration={video.duration}
-              username={video.owner.username}
+              channelname={video.owner.username}
               views={video.views}
               createdAt={video.createdAt}
               _id={video._id}
@@ -31,6 +38,7 @@ function Videos() {
           </div>
         ))}
       </div>
+      <div className="mt-20"></div>
     </>
   );
 }

@@ -1,13 +1,26 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { showPopup } from "../../features/popup";
-import { deleteVideo, fetchAllVideos } from "../../Api/videos";
+import {
+  deleteVideo,
+  fetchAllVideos,
+  fetchAllVideosByUserName,
+  fetchVideoById,
+} from "../../Api/videos";
 import { useNavigate } from "react-router-dom";
 
 export const useFetchAllVideos = () => {
   return useQuery({
     queryKey: ["videos"],
     queryFn: fetchAllVideos,
+  });
+};
+
+export const usefetchAllVideosByUser = (username) => {
+  return useQuery({
+    queryKey: ["userVideos", username],
+    queryFn: () => fetchAllVideosByUserName(username),
+    enabled: !!username,
   });
 };
 
@@ -31,5 +44,14 @@ export const usedeleteVideo = () => {
     onError: () => {
       alert("Failed");
     },
+  });
+};
+
+export const useFetchVideoById = (videoid) => {
+  return useQuery({
+    queryKey: ["videobyid"],
+    queryFn: () => fetchVideoById(videoid),
+    refetchOnWindowFocus: false,
+    retry: false,
   });
 };

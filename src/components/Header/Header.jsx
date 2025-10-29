@@ -1,16 +1,31 @@
 import Loader from "../Loader";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { useCurrentUser } from "../hooks/useUser";
+import { toggleSideBar } from "../../features/sidebar";
+import { useState } from "react";
 
 function Header() {
-  const user = JSON.parse(localStorage.getItem("auth"));
+  const dispatch = useDispatch();
+  const [dropDown, setDropDown] = useState(false);
 
-  if (!user) return <p>No User Found</p>;
+  const { data: user, isLoading, isError } = useCurrentUser();
+
+  if (isLoading) return <Loader isLoading={true} />;
+
+  if (isError) {
+    return (
+      <div>
+        <h2>Server Unavailable</h2>
+        <p>Please try again later.</p>
+      </div>
+    );
+  }
 
   return (
-    <nav className="flex items-center justify-between gap-2 sm:gap-5 mx-3 h-20 md:px-10 lg:px-15 xl:px-20 bg-white dark:bg-[#0f0f0f] relative transition-all">
-      <div className="flex items-center gap-4">
-        <button>
+    <nav className="flex items-center justify-between gap-2 sm:gap-5 h-20 md:px-10 lg:px-15 xl:px-20 bg-white dark:bg-[#0f0f0f] transition-all">
+      <div className="flex items-center gap-4 ">
+        <button onClick={() => dispatch(toggleSideBar())}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -27,7 +42,7 @@ function Header() {
           </svg>
         </button>
       </div>
-      <Link to={`/${user.username}`}>
+      <Link to={`/`}>
         <svg
           width="157"
           height="40"
@@ -111,31 +126,66 @@ function Header() {
         </div>
       </div>
       <div>
-        <Link
-          to="/upload/video"
-          className="px-4 h-9 active:scale-95 transition text-sm text-gray-500 dark:text-white rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center gap-1"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-5"
+        <div className="flex flex-col w-32 text-sm">
+          <button
+            className="w-full px-4 py-2 active:scale-95 transition text-sm text-gray-500 dark:text-white rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center gap-1"
+            onClick={() => setDropDown(!dropDown)}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+            <span>Create</span>
+          </button>
 
-          {/* "Create" text (hidden on mobile, shown on sm+) */}
-          <span className="hidden sm:inline">Create</span>
-        </Link>
+          {dropDown && (
+            <ul className="overflow-hidden absolute right-10 top-14 text-sm text-gray-500 dark:text-white bg-gray-200 dark:bg-slate-800 w-40 rounded-lg shadow-md mt-2 py-1 z-99">
+              <li className="px-4 py-2 hover:bg-gray-500/10 cursor-pointer">
+                <Link className="flex items-start gap-2" to="/upload/video">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-5 h-5 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"
+                    />
+                  </svg>
+
+                  {/* "Create" text (hidden on mobile, shown on sm+) */}
+                  <span>Upload Video</span>
+                </Link>
+              </li>
+              <li className="px-4 py-2 hover:bg-gray-500/10 cursor-pointer">
+                Copy link
+              </li>
+              <li className="px-4 py-2 hover:bg-gray-500/10 cursor-pointer">
+                Edit file
+              </li>
+              <li className="px-4 py-2 hover:bg-red-500/10 text-red-500 cursor-pointer">
+                Delete file
+              </li>
+            </ul>
+          )}
+        </div>
       </div>
       <div className="flex-shrink-0">
-        <Link to={`/${user.username}/settings`} className="relative">
+        <Link to={`/settings`} className="relative">
           <img
             className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 rounded-full object-cover"
             src={user.avatar.url || "/dummy-avatar.png"}

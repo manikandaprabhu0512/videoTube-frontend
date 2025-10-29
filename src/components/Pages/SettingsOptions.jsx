@@ -31,11 +31,11 @@ function SettingsOptions() {
   if (isLoading) return <Loader isLoading={true} />;
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-9 text-center text-gray-800 dark:text-white">
+    <div className="px-4">
+      <h2 className="text-2xl font-bold mt-5 mb-9 text-center text-gray-800 dark:text-white">
         Privacy & Settings
       </h2>
-      <div className="border border-gray-300 rounded-lg bg-white dark:bg-[#121212]">
+      <div className="border border-gray-300 rounded-lg mx-2 bg-white dark:bg-[#121212]">
         <ul>
           <li className="flex justify-between items-center p-4 border-b border-gray-200">
             <div>
@@ -43,7 +43,7 @@ function SettingsOptions() {
               <p className="text-sm">Change username, password, avatar</p>
             </div>
             <Link
-              to={`/${user.username}/settings/profile`}
+              to={`/settings/profile/${user.username}`}
               className="text-blue-600 font-medium hover:underline"
             >
               Edit

@@ -5,11 +5,38 @@ export const fetchUserData = async () => {
     const res = await API.get(`/users/getCurrentUser`, {
       withCredentials: true,
     });
-    const data = res?.data?.data || null;
 
-    return data;
+    return res?.data?.data || null;
   } catch (error) {
-    return null;
+    const message = error?.response?.data?.message;
+
+    if (error?.response?.status === 401 && message === "Token Expired") {
+      const refreshed = await generateNewTokens();
+
+      if (refreshed) {
+        return fetchUserData();
+      } else {
+        return null;
+      }
+    }
+    throw error;
+  }
+};
+
+export const generateNewTokens = async () => {
+  try {
+    const res = await API.post(
+      "/users/refreshToken",
+      {},
+      { withCredentials: true }
+    );
+    return true;
+  } catch (error) {
+    console.error(
+      "🚨 Failed to refresh tokens:",
+      error?.response?.data?.message
+    );
+    return false;
   }
 };
 
@@ -151,6 +178,18 @@ export const removeCoverImage = async () => {
         withCredentials: true,
       }
     );
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUserChannelDetails = async (channelname) => {
+  try {
+    const res = await API.get(`/users/c/${channelname}`, {
+      withCredentials: true,
+    });
+
+    return res?.data?.data || null;
   } catch (error) {
     throw error;
   }

@@ -16,6 +16,8 @@
     "@tailwindcss/vite": "^4.1.13",
     "@tanstack/react-query": "^5.87.4",
     "axios": "^1.11.0",
+    "color-thief-react": "^2.1.0",
+    "ioredis": "^5.8.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-player": "^3.3.2",

@@ -2,18 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserWatchHistory } from "../../Api/users.js";
 import Loader from "../Loader";
 import WatchHistoryCard from "../Cards/WatchHistoryCard";
+import { useGetUserWatchHistory } from "../hooks/useUser.js";
 
 function WatchHistory() {
-  const { data: videos, isLoading } = useQuery({
-    queryKey: ["watchHistory"],
-    queryFn: getUserWatchHistory,
-  });
+  const { data: videos, isLoading } = useGetUserWatchHistory();
 
   if (isLoading) return <Loader isLoading={true} />;
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-3">Watch History</h1>
+    <div className="pl-5 md:pl-0">
+      <h1 className="text-3xl font-bold ml-3 mb-3">Watch History</h1>
       <hr className="m-2"></hr>
       <div className="">
         {videos.data.data.map((video) => (

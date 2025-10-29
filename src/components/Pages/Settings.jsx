@@ -344,7 +344,7 @@ function Settings() {
           <HomeIcon />
         </button>
         <ArrowIcon />
-        <Link to={`/${user.username}/settings`} className="hover:underline">
+        <Link to={`/settings`} className="hover:underline">
           Settings
         </Link>
         <ArrowIcon />

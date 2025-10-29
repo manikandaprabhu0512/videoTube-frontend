@@ -1,6 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
 import { NavLink } from "react-router-dom";
-import { fetchUserData } from "../../Api/users.js";
 import Loader from "../Loader";
 import { useSelector } from "react-redux";
 import {
@@ -9,18 +7,13 @@ import {
   Copyright,
   Dashboard,
   Earn,
+  PlaylistsIcon,
   Settings,
 } from "../../assets/Icons";
+import { useCurrentUser } from "../hooks/useUser.js";
 
 function CreaterSideBar() {
-  const {
-    data: user,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["user"],
-    queryFn: fetchUserData,
-  });
+  const { data: user, isLoading } = useCurrentUser();
 
   const visible = useSelector((state) => state.sidebar.visible);
 
@@ -37,24 +30,30 @@ function CreaterSideBar() {
     },
     {
       id: 2,
-      name: "Content",
+      name: "Videos",
       path: `/studio/content/${user.username}`,
       icon: <Content />,
     },
     {
       id: 3,
+      name: "Playlists",
+      path: `/studio/playlists/${user.username}`,
+      icon: <PlaylistsIcon />,
+    },
+    {
+      id: 4,
       name: "Copyright",
       path: "/studio/copyright",
       icon: <Copyright />,
     },
     {
-      id: 4,
+      id: 5,
       name: "Archive",
       path: `/studio/archive/${user.username}`,
       icon: <Archive />,
     },
     {
-      id: 5,
+      id: 6,
       name: "Earn",
       path: "/studio/Earn",
       icon: <Earn />,
@@ -63,7 +62,7 @@ function CreaterSideBar() {
 
   return (
     <div>
-      {visible && (
+      {!visible && (
         <aside
           id="separator-sidebar"
           className="top-0 left-0 z-40 w-64 transition-transform -translate-x-full sm:translate-x-0"

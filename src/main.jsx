@@ -21,6 +21,11 @@ import SettingsOptions from "./components/Pages/SettingsOptions";
 import Settings from "./components/Pages/Settings";
 import ChangePassword from "./components/Pages/ChangePassword";
 import Login from "./components/Login/Login.jsx";
+import UserProfile from "./components/Pages/UserProfile.jsx";
+import PlayLists from "./components/Pages/PlayLists.jsx";
+import UserPlaylists from "./components/Pages/UserPlaylists.jsx";
+import CreatePlaylist from "./components/Pages/CreatePlaylist.jsx";
+import PlaylistViewPage from "./components/Pages/PlaylistViewPage.jsx";
 
 const queryClient = new QueryClient();
 
@@ -31,14 +36,6 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Login />,
-      },
-      {
-        path: "account/signup",
-        element: <SignUp />,
-      },
-      {
-        path: ":username",
         element: (
           <ProtectedRoute>
             <VideoGramLayout />
@@ -48,10 +45,38 @@ const router = createBrowserRouter([
           { path: "", element: <Videos /> },
           { path: "watch-history", element: <WatchHistory /> },
           { path: "settings", element: <SettingsOptions /> },
+          { path: "feed/playlists", element: <PlayLists /> },
+          { path: "playlist/:playlistid", element: <PlaylistViewPage /> },
         ],
       },
-      { path: ":username/settings/profile", element: <Settings /> },
-      { path: "change-password", element: <ChangePassword /> },
+      {
+        path: "account/signup",
+        element: <SignUp />,
+      },
+      {
+        path: "/settings/profile/:username",
+        element: (
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "change-password",
+        element: (
+          <ProtectedRoute>
+            <ChangePassword />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: ":channelname",
+        element: (
+          <ProtectedRoute>
+            <UserProfile />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "watch",
         element: (
@@ -92,6 +117,14 @@ const router = createBrowserRouter([
                 header={"Archived Videos: "}
               />
             ),
+          },
+          {
+            path: "playlists/:username",
+            element: <UserPlaylists />,
+          },
+          {
+            path: "create-playlist/:username",
+            element: <CreatePlaylist />,
           },
         ],
       },

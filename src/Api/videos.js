@@ -54,7 +54,8 @@ export const fetchAllVideosByUserName = async (username) => {
     const res = await API.get(`/videos/c/user/${username}`, {
       withCredentials: true,
     });
-    return res;
+
+    return res?.data?.data;
   } catch (error) {
     console.error("Error:", error);
   }

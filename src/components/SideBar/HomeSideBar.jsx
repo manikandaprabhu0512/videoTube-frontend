@@ -3,7 +3,8 @@ import { Link, NavLink } from "react-router-dom";
 import { Home, Settings, Subscriptions } from "../../assets/Icons";
 
 function HomeSideBar() {
-  const visible = useSelector((state) => state.sidebar.visible);
+  // const visible = useSelector((state) => state.sidebar.visible);
+  const visible = true;
 
   const user = JSON.parse(localStorage.getItem("auth"));
 
@@ -19,7 +20,7 @@ function HomeSideBar() {
             <ul className="space-y-2 font-medium">
               <li>
                 <NavLink
-                  to={`/${user.username}`}
+                  to={`/`}
                   end
                   className={({ isActive }) =>
                     `flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group ${

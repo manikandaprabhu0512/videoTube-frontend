@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { login } from "../../features/auth.js";
 import { useEffect, useState } from "react";
@@ -12,23 +12,20 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const [authChecked, setAuthChecked] = useState(true);
   useEffect(() => {
     document.title = "Videotube - Login";
   }, []);
 
-  const [authChecked, setAuthChecked] = useState(false);
+  const status = useSelector((state) => state.auth.status);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("auth"));
-    if (user) {
-      navigate(`/${user.username}`, { replace: true });
-    } else {
-      setAuthChecked(true);
+    if (!status) {
+      setAuthChecked(false);
     }
-  }, [navigate]);
+  }, [status]);
 
-  if (!authChecked) return <Loader isLoading={true} />;
+  if (authChecked) return <Loader isLoading={true} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,7 +43,8 @@ function Login() {
       if (res.status === 200) {
         localStorage.setItem("auth", JSON.stringify(res.data.data));
         dispatch(login({ username: username }));
-        navigate(`/${res.data.data.username}`);
+        navigate(`/`, { replace: true });
+        window.location.reload();
       }
       if (res.status == 400) {
         dispatch(
@@ -70,7 +68,11 @@ function Login() {
             },
           })
         );
-      } else if (error.response && error.response.status === 401) {
+      } else if (
+        error.response &&
+        error.response.status === 401 &&
+        error.response.data.message === "Invalid Password"
+      ) {
         dispatch(
           showPopup({
             component: "SomethingWentWrong_Popup",
@@ -80,8 +82,6 @@ function Login() {
             },
           })
         );
-      } else {
-        console.error("Unexpected error:", error);
       }
     }
   };
