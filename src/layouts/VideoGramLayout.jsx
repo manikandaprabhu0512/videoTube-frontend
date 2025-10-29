@@ -16,7 +16,7 @@ function VideoGramLayout() {
       </div>
       <div className="flex pt-20 h-full">
         <div className="fixed z-10 h-full overflow-y-auto">
-          {/* <Sidebar /> */}
+          <Sidebar />
         </div>
         <div
           className={`flex-1 ${Open ? "sm:p-3" : "md:ml-30 lg:ml-50 xl:ml-58"}`}
