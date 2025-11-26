@@ -8,6 +8,10 @@ export default function ProtectedRoute({ children }) {
 
   if (isLoading) return <Loader isLoading={true} />;
 
+  if (!user) {
+    return <Login />;
+  }
+
   if (isError) {
     return (
       <div>
@@ -15,10 +19,6 @@ export default function ProtectedRoute({ children }) {
         <p>Please try again later.</p>
       </div>
     );
-  }
-
-  if (!user) {
-    return <Login />;
   }
 
   return children;
