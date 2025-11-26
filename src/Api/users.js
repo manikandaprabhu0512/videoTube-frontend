@@ -42,7 +42,9 @@ export const generateNewTokens = async () => {
 
 export const getUserWatchHistory = async () => {
   try {
-    const res = await API.get("/users/watchHistory", { withCredentials: true });
+    const res = await API.get("/users/watchHistory", {
+      withCredentials: true,
+    });
 
     return res;
   } catch (error) {

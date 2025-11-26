@@ -2,7 +2,7 @@ import API from "./api";
 
 export const getVideoLikes = async (videoid) => {
   try {
-    const res = await API.get(`/likes/videos/likes/c/${videoid}`);
+    const res = await API.get(`/likes/videos/c/${videoid}`);
 
     return res.data.data;
   } catch (error) {

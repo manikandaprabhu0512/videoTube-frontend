@@ -56,7 +56,7 @@ function WatchCard() {
   }, [videoComments]);
 
   useEffect(() => {
-    videoLikes?.map((like) => {
+    videoLikes?.docs?.map((like) => {
       if (like.owner === user?._id) {
         setLiked(true);
       }

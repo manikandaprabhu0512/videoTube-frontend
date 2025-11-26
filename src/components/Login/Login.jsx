@@ -31,16 +31,14 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await API.post(
-        "/users/login",
-        {
-          username: username,
-          password: password,
-        },
-        { withCredentials: true }
-      );
+      const res = await API.post("/api/v1/users/login", {
+        username: username,
+        password: password,
+      });
 
       if (res.status === 200) {
+        console.log("User Logged In");
+
         localStorage.setItem("auth", JSON.stringify(res.data.data));
         dispatch(login({ username: username }));
         navigate(`/`, { replace: true });
