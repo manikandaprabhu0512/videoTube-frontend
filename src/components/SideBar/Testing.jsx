@@ -135,7 +135,7 @@ export default function Sidebar() {
       </aside>
       {!Open && (
         <div className="hidden lg:block fixed bottom-0 left-15 mt-auto text-xs text-gray-500 dark:text-gray-400 pb-4">
-          © 2025 VideoTube
+          © 2025 Videogram
         </div>
       )}
 

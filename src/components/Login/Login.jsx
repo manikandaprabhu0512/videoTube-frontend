@@ -14,7 +14,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [authChecked, setAuthChecked] = useState(true);
   useEffect(() => {
-    document.title = "Videotube - Login";
+    document.title = "Videogram - Login";
   }, []);
 
   const status = useSelector((state) => state.auth.status);

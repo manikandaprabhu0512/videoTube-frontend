@@ -11,8 +11,6 @@ export const useChannelSubscriber = ({ id }) => {
     queryKey: ["channelSubscriber"],
     queryFn: () => fetchSubscribers({ id }),
     enabled: !!id,
-    refetchInterval: 1,
-    refetchOnWindowFocus: true,
   });
 };
 

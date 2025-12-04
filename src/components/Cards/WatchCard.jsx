@@ -16,10 +16,13 @@ import {
 } from "../hooks/useComments.js";
 
 function WatchCard() {
+  useEffect(() => {
+    if (!Open) dispatch(toggleSideBar());
+  }, []);
+
   const [liked, setLiked] = useState(false);
   const [addComment, setAddComment] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [comments, setComments] = useState("");
   const [content, setContent] = useState("");
   const inputRef = useRef(null);
   const { videoid } = useParams();
@@ -28,13 +31,21 @@ function WatchCard() {
 
   const Open = useSelector((state) => state.sidebar.visible);
 
-  useEffect(() => {
-    if (!Open) dispatch(toggleSideBar());
-  }, [Open]);
-
   const user = JSON.parse(localStorage.getItem("auth"));
 
   const { data: video, isLoading } = useFetchVideoById(videoid);
+
+  useEffect(() => {
+    if (isLoading) {
+      document.title = "Videogram";
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (video?.title) {
+      document.title = `Videogram - ${video.title}`;
+    }
+  }, [video]);
 
   const { mutate: addtoWatchHistory, isPending: addtoWatchHistoryPending } =
     useAddUserWatchHistory();
@@ -52,18 +63,6 @@ function WatchCard() {
     useGetVideoComments(videoid);
 
   useEffect(() => {
-    setComments(videoComments);
-  }, [videoComments]);
-
-  useEffect(() => {
-    videoLikes?.docs?.map((like) => {
-      if (like.owner === user?._id) {
-        setLiked(true);
-      }
-    });
-  }, [videoLikes]);
-
-  useEffect(() => {
     if (video) {
       addtoWatchHistory({ videoId: videoid });
     }
@@ -75,21 +74,22 @@ function WatchCard() {
     }
   }, [addComment]);
 
-  const { mutate: addVideoComment, isPending: addVideoCommentPending } =
-    useAddVideoComment();
+  const { mutate: addVideoComment } = useAddVideoComment();
 
   const handleAddComment = () => {
-    const newComment = {
-      id: Date.now(),
-      username: user.username,
-      avatar: user.avatar,
-      comment: content,
-    };
-
-    setComments((prev) => [...prev, newComment]);
     addVideoComment({ videoid, content });
     setAddComment(false);
     setContent("");
+  };
+
+  useEffect(() => {
+    const isLiked = videoLikes?.docs?.some((like) => like.owner === user?._id);
+    setLiked(Boolean(isLiked));
+  }, [videoLikes, user?._id]);
+
+  const handleLikes = (videoId) => {
+    toggleVideoLike(videoId);
+    setLiked(!liked);
   };
 
   if (
@@ -97,9 +97,7 @@ function WatchCard() {
     addtoWatchHistoryPending ||
     channelSubscriberLoading ||
     videoLikesLoading ||
-    toggleVideoLikePending ||
-    videoCommentsPending ||
-    addVideoCommentPending
+    videoCommentsPending
   )
     return <Loader isLoading={true} />;
   if (!video) return <p>No User Found</p>;
@@ -163,18 +161,17 @@ function WatchCard() {
                   className="flex items-center gap-1 px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 
                        bg-white dark:bg-slate-800 hover:bg-slate-700 text-gray-200 rounded-full 
                        transition active:scale-95 text-xs sm:text-sm md:text-base shadow"
-                  onClick={() => toggleVideoLike(video._id)}
+                  onClick={() => handleLikes(video._id)}
                 >
                   {liked ? <Like style={"fill-gray-400"} /> : <Like />}{" "}
                   <span className="text-gray-800 dark:text-white">
-                    {videoLikes.length || 0}
+                    {videoLikes?.docs?.length || 0}
                   </span>
                 </button>
                 <button
                   className="flex items-center gap-1 px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 
                        bg-white dark:bg-slate-800 hover:bg-slate-700 text-gray-200 rounded-full 
                        transition active:scale-95 text-xs sm:text-sm md:text-base shadow"
-                  onClick={() => toggleVideoLike(video._id)}
                 >
                   <Dislike />
                 </button>
@@ -213,7 +210,7 @@ function WatchCard() {
           {/* Comment Section */}
           <div>
             <h1 className="text-xl font-bold my-3">
-              {comments.length} Comments
+              {videoComments?.length} Comments
             </h1>
           </div>
           <div className="flex mt-5 items-center gap-3">
@@ -271,7 +268,7 @@ function WatchCard() {
           </div>
           {/* Comments List */}
           <div className="mt-8">
-            {comments.map((comment) => (
+            {videoComments?.map((comment) => (
               <div
                 key={comment._id}
                 className="flex items-start gap-4 border-b py-4 border-gray-200 dark:border-gray-700"

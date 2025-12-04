@@ -12,7 +12,7 @@ export const getVideoLikes = async (videoid) => {
 
 export const toggleVideoLikes = async (videoid) => {
   try {
-    const res = await API.post(`/likes/video/c/${videoid}`);
+    await API.post(`/likes/video/c/${videoid}`);
   } catch (error) {
     throw error;
   }

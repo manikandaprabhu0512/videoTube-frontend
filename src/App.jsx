@@ -21,12 +21,12 @@ function App() {
   }, [darkMode]);
 
   useEffect(() => {
-    document.title = "Videotube";
+    document.title = "Videogram";
 
     (async () => {
       try {
         const res = await axios.get(
-          `https://videotube-xwsa.onrender.com/api/v1/health`
+          `${import.meta.env.VITE_SERVER_LINK}/health`
         );
         setHealth(res.data);
       } catch (error) {

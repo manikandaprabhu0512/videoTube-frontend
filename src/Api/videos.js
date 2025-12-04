@@ -1,12 +1,10 @@
 import API from "./api";
 
-export const fetchAllVideos = async () => {
+export const fetchAllVideos = async ({ page = 1, limit = 10 }) => {
   try {
-    const res = await API.get(
-      // `https://videotube-xwsa.onrender.com/api/v1/users/c/${auth.username}`,
-      `/videos`,
-      { withCredentials: true }
-    );
+    const res = await API.get(`/videos?page=${page}&limit=${limit}`, {
+      withCredentials: true,
+    });
 
     return res.data.data;
   } catch (error) {

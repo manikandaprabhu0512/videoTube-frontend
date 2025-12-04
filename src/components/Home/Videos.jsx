@@ -13,7 +13,7 @@ function Videos() {
   const { data: videos, isLoading } = useFetchAllVideos();
 
   useEffect(() => {
-    document.title = "Videotube - Home";
+    document.title = "Videogram - Home";
     if (Open) dispatch(toggleSideBar());
   }, []);
 

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addVideoComments, getVideoComments } from "../../Api/comment";
 
 export const useGetVideoComments = (videoid) => {
@@ -9,8 +9,12 @@ export const useGetVideoComments = (videoid) => {
 };
 
 export const useAddVideoComment = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ videoid, content }) =>
       addVideoComments({ videoid, content }),
+    onSettled: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["videoComments"] });
+    },
   });
 };
