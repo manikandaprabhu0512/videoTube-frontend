@@ -10,7 +10,7 @@ export default function BannerPopup() {
       <div className="relative w-full py-2.5 font-medium text-sm text-white text-center bg-gradient-to-r from-[#4F39F6] to-[#FDFEFF]">
         <p>
           <a
-            href="https://github.com/manikandaprabhu0512"
+            href="https://github.com/manikandaprabhu0512/Videogram"
             target="_blank"
             rel="noopener noreferrer"
             className="px-3 py-1 rounded-md text-indigo-600 bg-white mr-2"
