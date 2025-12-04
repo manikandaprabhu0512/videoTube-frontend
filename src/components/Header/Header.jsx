@@ -9,9 +9,9 @@ function Header() {
   const dispatch = useDispatch();
   const [dropDown, setDropDown] = useState(false);
 
-  const { data: user, isLoading, isError } = useCurrentUser();
+  const { data: user, isLoading: userLoading, isError } = useCurrentUser();
 
-  if (isLoading) return <Loader isLoading={true} />;
+  if (userLoading) return <Loader isLoading={true} />;
 
   if (isError) {
     return (
