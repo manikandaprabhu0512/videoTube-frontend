@@ -5,14 +5,42 @@ import { useEffect, useState } from "react";
 import API from "../../Api/api.js";
 import Loader from "../Loader";
 import { showPopup } from "../../features/popup.js";
+import z from "zod";
+import { useFormik } from "formik";
+
+const loginSchema = z.object({
+  username: z.union([
+    z
+      .string()
+      .min(3, "Username must be at least 3 characters")
+      .regex(/^[a-zA-Z0-9_.-]+$/, "Invalid username format"),
+    z.email("Invalid email address"),
+  ]),
+  password: z
+    .string()
+    .min(1, "Password is required")
+    .min(6, "Password must be at least 6 characters"),
+});
+
+const validate = (values) => {
+  const result = loginSchema.safeParse(values);
+  if (result.success) return {};
+
+  const errors = {};
+  result.error.issues.forEach((issue) => {
+    const field = issue.path[0];
+    errors[field] = issue.message;
+  });
+
+  return errors;
+};
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [authChecked, setAuthChecked] = useState(true);
+
   useEffect(() => {
     document.title = "Videogram - Login";
   }, []);
@@ -25,22 +53,16 @@ function Login() {
     }
   }, [status]);
 
-  if (authChecked) return <Loader isLoading={true} />;
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const res = await API.post("/users/login", {
-        username: username,
-        password: password,
+        username: values.username,
+        password: values.password,
       });
 
       if (res.status === 200) {
-        console.log("User Logged In");
-
         localStorage.setItem("auth", JSON.stringify(res.data.data));
-        dispatch(login({ username: username }));
+        dispatch(login({ username: values.username }));
         navigate(`/`, { replace: true });
         window.location.reload();
       }
@@ -56,8 +78,12 @@ function Login() {
         );
       }
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-        dispatch(
+      const status = error?.response?.status;
+      const message = error?.response?.data?.message;
+
+      // User Not Found
+      if (status === 404) {
+        return dispatch(
           showPopup({
             component: "SomethingWentWrong_Popup",
             props: {
@@ -66,12 +92,11 @@ function Login() {
             },
           })
         );
-      } else if (
-        error.response &&
-        error.response.status === 401 &&
-        error.response.data.message === "Invalid Password"
-      ) {
-        dispatch(
+      }
+
+      // Wrong Password
+      if (status === 401 && message === "Invalid Password") {
+        return dispatch(
           showPopup({
             component: "SomethingWentWrong_Popup",
             props: {
@@ -81,14 +106,51 @@ function Login() {
           })
         );
       }
+
+      // Wrong Credentials
+      if (status === 400) {
+        return dispatch(
+          showPopup({
+            component: "SomethingWentWrong_Popup",
+            props: {
+              isOpen: true,
+              message: "Wrong Credentials!",
+            },
+          })
+        );
+      }
+
+      // Unexpected errors
+      dispatch(
+        showPopup({
+          component: "SomethingWentWrong_Popup",
+          props: {
+            isOpen: true,
+            message: "Something went wrong!",
+          },
+        })
+      );
+    } finally {
+      setSubmitting(false);
     }
   };
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validate: validate,
+    onSubmit: handleSubmit,
+  });
+
+  if (authChecked) return <Loader isLoading={true} />;
 
   return (
     <div className="flex justify-center items-center h-screen">
       <form
         className="bg-white dark:bg-[#121212] dark:text-white border dark:border-gray-100 text-gray-500 max-w-[340px] w-full mx-4 md:p-6 p-4 py-8 text-left text-sm rounded-xl shadow-[0px_0px_10px_0px] shadow-black/10"
-        onSubmit={handleSubmit}
+        onSubmit={formik.handleSubmit}
       >
         <h2 className="text-2xl font-bold mb-9 text-center text-gray-800 dark:text-white ">
           Welcome Back
@@ -119,12 +181,19 @@ function Login() {
           </svg>
           <input
             className="w-full outline-none bg-transparent py-2.5"
+            id="username"
+            name="username"
             type="text"
             placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             required
           />
         </div>
+        {formik.touched.username && formik.errors.username && (
+          <span className="text-sm text-red-600">{formik.errors.username}</span>
+        )}
         <div className="flex items-center mt-2 mb-4 border bg-indigo-500/5 border-gray-500/10 rounded gap-1 pl-2">
           <svg
             width="13"
@@ -140,12 +209,19 @@ function Login() {
           </svg>
           <input
             className="w-full outline-none bg-transparent py-2.5"
+            id="password"
+            name="password"
             type={showPassword ? "text" : "password"}
             placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             required
           />
         </div>
+        {formik.touched.password && formik.errors.password && (
+          <span className="text-sm text-red-600">{formik.errors.password}</span>
+        )}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-1">
             <input

@@ -37,7 +37,7 @@ function ChangePassword() {
               },
             })
           );
-          navigate(`/${user.username}/settings/profile`);
+          navigate(`/settings/profile/${user.username}`);
         },
         onError: () => {
           alert("Password Change Failed");
@@ -63,7 +63,7 @@ function ChangePassword() {
           </Link>
           <ArrowIcon />
           <Link
-            to={`/${user.username}/settings/profile`}
+            to={`/settings/profile/${user.username}`}
             className="hover:underline"
           >
             Profile
