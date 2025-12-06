@@ -50,7 +50,7 @@ function VideoCard({
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                navigate(`${channelname}`);
+                navigate(`user/${channelname}`);
               }}
               className="text-gray-500 text-sm dark:text-gray-100 opacity-70 hover:underline"
             >

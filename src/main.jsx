@@ -26,6 +26,7 @@ import PlayLists from "./components/Pages/PlayLists.jsx";
 import UserPlaylists from "./components/Pages/UserPlaylists.jsx";
 import CreatePlaylist from "./components/Pages/CreatePlaylist.jsx";
 import PlaylistViewPage from "./components/Pages/PlaylistViewPage.jsx";
+import ErrorPage from "./components/Pages/NotFoundPage.jsx";
 
 const queryClient = new QueryClient();
 
@@ -70,7 +71,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: ":channelname",
+        path: "user/:channelname",
         element: (
           <ProtectedRoute>
             <UserProfile />
@@ -135,6 +136,10 @@ const router = createBrowserRouter([
             <EditorLayout />
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "*",
+        element: <ErrorPage />,
       },
     ],
   },
