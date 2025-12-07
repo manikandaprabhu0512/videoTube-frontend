@@ -23,13 +23,23 @@ export const useChannelSubscribed = ({ id }) => {
 };
 
 export const useSubscribeChannel = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id }) => subscriberChannel({ id }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["channelSubscriber"] });
+      queryClient.invalidateQueries({ queryKey: ["channelSubscribed"] });
+    },
   });
 };
 
 export const useUnsubscribeChannel = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id }) => unsubscribeChannel({ id }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["channelSubscriber"] });
+      queryClient.invalidateQueries({ queryKey: ["channelSubscribed"] });
+    },
   });
 };

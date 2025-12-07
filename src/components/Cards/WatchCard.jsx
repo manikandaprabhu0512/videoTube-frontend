@@ -6,7 +6,10 @@ import { timesAgo } from "../../utils/timesago.js";
 import { useChannelSubscriber } from "../hooks/useSubscription.js";
 import { Dislike, Like } from "../../assets/Icons.jsx";
 import { useFetchVideoById } from "../hooks/useVideo.js";
-import { useAddUserWatchHistory } from "../hooks/useUser.js";
+import {
+  useAddUserWatchHistory,
+  useUserChannelDetails,
+} from "../hooks/useUser.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSideBar } from "../../features/sidebar.js";
 import { useGetVideoLikes, useToggleVideoLikes } from "../hooks/useLikes.js";
@@ -14,6 +17,7 @@ import {
   useAddVideoComment,
   useGetVideoComments,
 } from "../hooks/useComments.js";
+import SubscribeBtn from "../../utils/SubscribeBtn.jsx";
 
 function WatchCard() {
   useEffect(() => {
@@ -35,6 +39,8 @@ function WatchCard() {
 
   const { data: video, isLoading } = useFetchVideoById(videoid);
 
+  const { data: channel } = useUserChannelDetails(video?.owner?.username);
+
   useEffect(() => {
     if (isLoading) {
       document.title = "Videogram";
@@ -50,11 +56,10 @@ function WatchCard() {
   const { mutate: addtoWatchHistory, isPending: addtoWatchHistoryPending } =
     useAddUserWatchHistory();
 
-  const { mutate: toggleVideoLike, isPending: toggleVideoLikePending } =
-    useToggleVideoLikes();
+  const { mutate: toggleVideoLike } = useToggleVideoLikes();
 
   const { data: channelSubscriber, isLoading: channelSubscriberLoading } =
-    useChannelSubscriber({ id: user?._id });
+    useChannelSubscriber({ id: video?.owner?._id });
 
   const { data: videoLikes, isLoading: videoLikesLoading } =
     useGetVideoLikes(videoid);
@@ -146,14 +151,11 @@ function WatchCard() {
                   </p>
                 </Link>
 
-                <button
-                  type="button"
-                  className="ml-auto sm:ml-4 w-20 sm:w-24 md:w-28 lg:w-32 py-1 sm:py-1.5 md:py-2 
-                 text-xs sm:text-sm md:text-base text-white dark:text-black 
-                 rounded-full bg-black dark:bg-white active:scale-95 transition"
-                >
-                  <span className="block">Subscribe</span>
-                </button>
+                <SubscribeBtn
+                  user={user}
+                  subscribers={channelSubscriber}
+                  channelId={channel?._id}
+                />
               </div>
 
               <div className="flex items-center gap-3 sm:gap-4">

@@ -1,4 +1,3 @@
-import { Navigate } from "react-router-dom";
 import Loader from "./Loader";
 import { useCurrentUser } from "./hooks/useUser";
 import Login from "./Login/Login";

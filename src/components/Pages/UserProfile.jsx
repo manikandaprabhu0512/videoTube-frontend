@@ -6,16 +6,14 @@ import Loader from "../Loader.jsx";
 import {
   useChannelSubscribed,
   useChannelSubscriber,
-  useSubscribeChannel,
-  useUnsubscribeChannel,
 } from "../hooks/useSubscription.js";
 import { usefetchAllVideosByUser } from "../hooks/useVideo.js";
 import { timesAgo } from "../../utils/timesago.js";
+import SubscribeBtn from "../../utils/SubscribeBtn.jsx";
+// import { handleSubscribe } from "../../utils/SubscribeFtn.jsx";
 
 function UserProfile() {
   const { channelname } = useParams();
-
-  const [channelSubscribed, setChannelSubscribed] = useState(false);
 
   const { data: user, isLoading: loadingUserDetails } = useCurrentUser();
 
@@ -29,57 +27,14 @@ function UserProfile() {
     { id: channel?._id }
   );
 
-  useEffect(() => {
-    subscribers?.map((subscriber) => {
-      if (subscriber?.username === user?.username) {
-        setChannelSubscribed(true);
-      }
-    });
-  }, [subscribers]);
-
   const { data: uservideos, isLoading: fetchingUserVideo } =
     usefetchAllVideosByUser(channel?.username);
-
-  const { mutate: subscribeChannel, isPending: subscribeChannelPending } =
-    useSubscribeChannel();
-
-  const { mutate: unsubscribeChannel, isPending: unsubscribeChannelPending } =
-    useUnsubscribeChannel();
-
-  //Need to add caching to quick display of subscribers count
-  const handleSubscribe = () => {
-    if (channelSubscribed) {
-      unsubscribeChannel(
-        { id: channel?._id },
-        {
-          onSuccess: () => {
-            setChannelSubscribed(false);
-          },
-        }
-      );
-    } else {
-      subscribeChannel(
-        { id: channel?._id },
-        {
-          onSuccess: () => {
-            setChannelSubscribed(true);
-          },
-          onError: () => {
-            alert("Failed to Subscribe to the Channel");
-          },
-        }
-      );
-    }
-  };
 
   const isAnyLoading =
     useUserChannelDetailsLoading ||
     fetchSubscriber ||
     fetchSubscribed ||
-    fetchingUserVideo ||
-    subscribeChannelPending ||
-    loadingUserDetails ||
-    unsubscribeChannelPending;
+    fetchingUserVideo;
 
   if (isAnyLoading) {
     return <Loader isLoading={true} />;
@@ -119,21 +74,11 @@ function UserProfile() {
                 {channel.biography ||
                   "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Excepturi aperiam sint aliquam vero nemo veniam, vel nisi dolorum dolor aspernatur. Vero odio deserunt eligendi veniam labore illum quidem itaque quibusdam."}
               </p>
-              <button
-                type="button"
-                className={`w-16 sm:w-20 md:w-24 p-1 sm:p-1.5 text-xs sm:text-sm rounded-full shadow active:scale-95 transition-all mt-2 ${
-                  channel?._id === user?._id ? "hidden" : ""
-                } ${
-                  channelSubscribed
-                    ? "text-black bg-white dark:text-white dark:bg-gray-800"
-                    : "text-white bg-gray-800 dark:text-black dark:bg-white"
-                }`}
-                onClick={handleSubscribe}
-              >
-                <p className="mb-0.5">
-                  {channelSubscribed ? "Subscribed" : "Subscribe"}
-                </p>
-              </button>
+              <SubscribeBtn
+                channelId={channel?._id}
+                user={user}
+                subscribers={subscribers}
+              />
             </div>
           </div>
         </div>
