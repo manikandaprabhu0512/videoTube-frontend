@@ -51,21 +51,8 @@ function Videos() {
           </div>
         ))}
       </div>
-      <div ref={ref} className="mt-20">
-        {isFetchingNextPage && (
-          <div>
-            <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
-              <circle
-                cx="400"
-                cy="400"
-                fill="none"
-                r="160"
-                strokeWidth="16"
-                stroke="#707070"
-              />
-            </svg>
-          </div>
-        )}
+      <div ref={ref} className="mt-20 text-center">
+        <span className="loader"></span>
       </div>
     </>
   );
