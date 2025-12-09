@@ -1,44 +1,72 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import VideoCard from "../Cards/VideoCard";
-import Loader from "../Loader";
 import { useFetchAllVideos } from "../hooks/useVideo.js";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSideBar } from "../../features/sidebar.js";
+import { useSearchParams } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 
 function Videos() {
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("q") || "";
 
   const Open = useSelector((state) => state.sidebar.visible);
 
-  const { data: videos, isLoading } = useFetchAllVideos();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useFetchAllVideos(query);
+
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
+
+  const videos = data?.pages.flatMap((page) => page.items || page.docs) || [];
 
   useEffect(() => {
     document.title = "Videogram - Home";
     if (Open) dispatch(toggleSideBar());
   }, []);
 
-  if (isLoading) return <Loader isLoading={true} />;
-  if (!videos) return <p>No User Found</p>;
+  if (!videos) return <p>No Videos Found</p>;
 
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center">
-        {videos.docs.map((video) => (
-          <div key={video._id}>
+        {videos?.map((video) => (
+          <div key={video?._id}>
             <VideoCard
-              url={video.thumbnail.url}
-              title={video.title}
-              duration={video.duration}
-              channelname={video.owner.username}
-              views={video.views}
-              createdAt={video.createdAt}
-              _id={video._id}
-              avatar={video.owner.avatar.url}
+              url={video?.thumbnail?.url}
+              title={video?.title}
+              duration={video?.duration}
+              channelname={video?.owner?.username}
+              views={video?.views}
+              createdAt={video?.createdAt}
+              _id={video?._id}
+              avatar={video?.owner?.avatar?.url}
             />
           </div>
         ))}
       </div>
-      <div className="mt-20"></div>
+      <div ref={ref} className="mt-20">
+        {isFetchingNextPage && (
+          <div>
+            <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+              <circle
+                cx="400"
+                cy="400"
+                fill="none"
+                r="160"
+                strokeWidth="16"
+                stroke="#707070"
+              />
+            </svg>
+          </div>
+        )}
+      </div>
     </>
   );
 }

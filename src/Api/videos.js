@@ -1,12 +1,16 @@
 import API from "./api";
 
-export const fetchAllVideos = async ({ page = 1, limit = 10 }) => {
+export const fetchAllVideos = async ({ page = 1, limit = 1, query = "" }) => {
   try {
-    const res = await API.get(`/videos?page=${page}&limit=${limit}`, {
-      withCredentials: true,
-    });
+    const res = await API.get(
+      `/videos?page=${page}&limit=${limit}&query=${query}`
+    );
 
-    return res.data.data;
+    return {
+      items: res.data.data.docs,
+      nextPage: res.data.data?.nextPage,
+      hasMore: res.data.data?.hasNextPage,
+    };
   } catch (error) {
     console.error("Error: ", error);
   }

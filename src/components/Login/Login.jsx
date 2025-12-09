@@ -152,9 +152,23 @@ function Login() {
         className="bg-white dark:bg-[#121212] dark:text-white border dark:border-gray-100 text-gray-500 max-w-[340px] w-full mx-4 md:p-6 p-4 py-8 text-left text-sm rounded-xl shadow-[0px_0px_10px_0px] shadow-black/10"
         onSubmit={formik.handleSubmit}
       >
-        <h2 className="text-2xl font-bold mb-9 text-center text-gray-800 dark:text-white ">
-          Welcome Back
-        </h2>
+        <div className="flex items-center justify-center mb-4">
+          <img
+            src="/App_Logo_Dark_Mode.png"
+            alt="Logo"
+            className="block dark:hidden"
+            width={200}
+            height={40}
+          />
+
+          <img
+            src="/App_Logo_Light_Mode.png"
+            alt="Logo Dark"
+            className="hidden dark:block"
+            width={200}
+            height={40}
+          />
+        </div>
         <div className="flex items-center my-2 border bg-indigo-500/5 border-gray-500/10 rounded gap-1 pl-2">
           <svg
             width="18"

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { showPopup } from "../../features/popup";
 import {
@@ -9,10 +9,14 @@ import {
 } from "../../Api/videos";
 import { useNavigate } from "react-router-dom";
 
-export const useFetchAllVideos = () => {
-  return useQuery({
-    queryKey: ["videos"],
-    queryFn: fetchAllVideos,
+export const useFetchAllVideos = (query) => {
+  return useInfiniteQuery({
+    queryKey: ["videos", query],
+    queryFn: ({ pageParam = 1 }) =>
+      fetchAllVideos({ page: pageParam, limit: 5, query }),
+    getNextPageParam: (lastPage) => {
+      return lastPage.hasMore ? lastPage.nextPage : undefined;
+    },
   });
 };
 
