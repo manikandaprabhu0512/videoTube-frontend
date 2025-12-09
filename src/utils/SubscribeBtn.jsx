@@ -48,7 +48,7 @@ function SubscribeBtn({ channelId, user, subscribers }) {
     <div>
       <button
         type="button"
-        className={`w-16 sm:w-20 md:w-24 p-1 sm:p-1.5 text-xs sm:text-sm rounded-full shadow active:scale-95 transition-all mt-2 cursor-pointer ${
+        className={`w-18 sm:w-20 md:w-24 p-1 sm:p-1.5 text-xs sm:text-sm rounded-full shadow active:scale-95 transition-all mt-2 cursor-pointer ${
           channelId === user?._id ? "hidden" : ""
         } ${
           channelSubscribed
@@ -57,9 +57,9 @@ function SubscribeBtn({ channelId, user, subscribers }) {
         }`}
         onClick={handleSubscribe}
       >
-        <p className="mb-0.5">
+        <span className="text-center">
           {channelSubscribed ? "Subscribed" : "Subscribe"}
-        </p>
+        </span>
       </button>
     </div>
   );

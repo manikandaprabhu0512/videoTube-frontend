@@ -5,12 +5,14 @@ import Popup_Manager from "./components/Popup/Popup_Manager";
 import axios from "axios";
 import Loader from "./components/Loader";
 import { showPopup } from "./features/popup.js";
+import ErrorPage from "./components/Pages/Service_Unavailavle.jsx";
 
 function App() {
   const dispatch = useDispatch();
 
   const darkMode = useSelector((state) => state.theme.darkMode);
   const [health, setHealth] = useState(null);
+  const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
     if (darkMode) {
@@ -30,6 +32,7 @@ function App() {
         );
         setHealth(res.data);
       } catch (error) {
+        setServerError(true);
         dispatch(
           showPopup({
             component: "SomethingWentWrong_Popup",
@@ -43,7 +46,9 @@ function App() {
     })();
   }, []);
 
-  if (!health) return <Loader isLoading={true} />;
+  if (serverError) {
+    return <ErrorPage />;
+  }
 
   return (
     <>

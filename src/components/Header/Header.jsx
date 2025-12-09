@@ -4,6 +4,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useCurrentUser } from "../hooks/useUser";
 import { toggleSideBar } from "../../features/sidebar";
 import { useState } from "react";
+import ErrorPage from "../Pages/Service_Unavailavle";
 
 function Header() {
   const dispatch = useDispatch();
@@ -21,8 +22,7 @@ function Header() {
   if (isError) {
     return (
       <div>
-        <h2>Server Unavailable</h2>
-        <p>Please try again later.</p>
+        <ErrorPage />
       </div>
     );
   }

@@ -52,7 +52,7 @@ function Videos() {
         ))}
       </div>
       <div ref={ref} className="mt-20 text-center">
-        <span className="loader"></span>
+        <span className="loader1"></span>
       </div>
     </>
   );

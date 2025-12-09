@@ -20,9 +20,11 @@ import {
 import SubscribeBtn from "../../utils/SubscribeBtn.jsx";
 
 function WatchCard() {
-  useEffect(() => {
-    if (!Open) dispatch(toggleSideBar());
-  }, []);
+  // const Open = useSelector((state) => state.sidebar.visible);
+
+  // useEffect(() => {
+  //   if (!Open) dispatch(toggleSideBar());
+  // }, []);
 
   const [liked, setLiked] = useState(false);
   const [addComment, setAddComment] = useState(false);
@@ -32,8 +34,6 @@ function WatchCard() {
   const { videoid } = useParams();
 
   const dispatch = useDispatch();
-
-  const Open = useSelector((state) => state.sidebar.visible);
 
   const user = JSON.parse(localStorage.getItem("auth"));
 
