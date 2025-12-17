@@ -52,26 +52,20 @@ export const getUserWatchHistory = async () => {
   }
 };
 
-export const registerUser = async ({
-  username,
-  fullName,
-  email,
-  password,
-  avatarFile,
-  coverFile,
-  biography,
-}) => {
-  const formData = new FormData();
-  formData.append("username", username);
-  formData.append("fullName", fullName);
-  formData.append("email", email);
-  formData.append("biography", biography);
-  formData.append("password", password);
-  formData.append("avatar", avatarFile);
-  formData.append("coverImage", coverFile);
+export const registerUser = async (formData) => {
+  console.log(formData);
+
+  const formData1 = new FormData();
+  formData1.append("username", formData.username);
+  formData1.append("fullName", formData.fullName);
+  formData1.append("email", formData.email);
+  formData1.append("biography", formData.biography);
+  formData1.append("password", formData.password);
+  formData1.append("avatar", formData.avatarFile);
+  formData1.append("coverImage", formData.coverFile);
 
   try {
-    const res = await API.post("/users/register", formData, {
+    const res = await API.post("/users/register", formData1, {
       withCredentials: true,
       headers: { "Content-Type": "multipart / form-data" },
     });
@@ -187,12 +181,35 @@ export const removeCoverImage = async () => {
 
 export const getUserChannelDetails = async (channelname) => {
   try {
-    const res = await API.get(`/users/c/${channelname}`, {
-      withCredentials: true,
-    });
+    const res = await API.get(`/users/c/${channelname}`);
 
     return res?.data?.data || null;
   } catch (error) {
     throw error;
   }
+};
+
+export const sendOtp = async ({ username, email }) => {
+  try {
+    const res = await API.post("/users/send-otp", { username, email });
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const verifyRegistrationOTP = async ({ username, otp }) => {
+  return await API.post("/users/verify-registration-otp", { username, otp });
+};
+
+export const verifyForgotPasswordOTP = async ({ username, otp }) => {
+  return await API.post("/users/verify-reset-password-otp", { username, otp });
+};
+
+export const verifyEmail = async ({ email }) => {
+  return await API.post("/users/verify-email", { email });
+};
+
+export const resetPassword = async ({ email, newPassword }) => {
+  return await API.post("users/reset-password", { email, newPassword });
 };

@@ -19,6 +19,7 @@
     "color-thief-react": "^2.1.0",
     "formik": "^2.4.9",
     "ioredis": "^5.8.1",
+    "lucide-react": "^0.561.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-intersection-observer": "^10.0.0",

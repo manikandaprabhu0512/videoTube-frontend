@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../features/auth.js";
 import { useEffect, useState } from "react";
 import API from "../../Api/api.js";
@@ -9,13 +9,10 @@ import z from "zod";
 import { useFormik } from "formik";
 
 const loginSchema = z.object({
-  username: z.union([
-    z
-      .string()
-      .min(3, "Username must be at least 3 characters")
-      .regex(/^[a-zA-Z0-9_.-]+$/, "Invalid username format"),
-    z.email("Invalid email address"),
-  ]),
+  username: z
+    .string()
+    .min(3, "Username must be at least 3 characters")
+    .regex(/^[a-zA-Z0-9_.-]+$/, "Invalid username format"),
   password: z
     .string()
     .min(1, "Password is required")
@@ -137,8 +134,8 @@ function Login() {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      password: "",
+      username: "manimani",
+      password: "manimanii",
     },
     validate: validate,
     onSubmit: handleSubmit,
@@ -245,9 +242,12 @@ function Login() {
             />
             <label htmlFor="checkbox">Show Password</label>
           </div>
-          <a className="text-blue-600 underline" href="#">
+          <Link
+            to={`account/forgot-password`}
+            className="text-blue-600 underline"
+          >
             Forgot Password
-          </a>
+          </Link>
         </div>
         <button
           type="submit"

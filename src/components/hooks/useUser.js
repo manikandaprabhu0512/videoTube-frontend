@@ -5,20 +5,26 @@ import {
   getUserChannelDetails,
   getUserWatchHistory,
   logoutuser,
+  registerUser,
   removeAvatar,
   removeCoverImage,
+  resetPassword,
+  sendOtp,
   updateAccountDetails,
   updateAvatar,
   updateCoverImage,
+  verifyEmail,
+  verifyForgotPasswordOTP,
+  verifyRegistrationOTP,
 } from "../../Api/users";
 import { useDispatch } from "react-redux";
 import { showPopup } from "../../features/popup";
 import { addWatchHistory } from "../../Api/videos";
 const queryClient = new QueryClient();
 
-export const useNewTokens = () => {
+export const useRegisterUser = () => {
   return useMutation({
-    mutationFn: generateNewTokens,
+    mutationFn: (formData) => registerUser(formData),
   });
 };
 
@@ -115,5 +121,43 @@ export const useAddUserWatchHistory = () => {
   return useMutation({
     mutationKey: ["addWatchHistory"],
     mutationFn: addWatchHistory,
+  });
+};
+
+export const useSendOTP = () => {
+  return useMutation({
+    mutationFn: ({ username, email }) => sendOtp({ username, email }),
+  });
+};
+
+export const useVerifyRegistrationOTP = () => {
+  return useMutation({
+    mutationFn: async ({ username, otp }) => {
+      return await verifyRegistrationOTP({ username, otp });
+    },
+  });
+};
+
+export const useVerifyForgotPasswordOTP = () => {
+  return useMutation({
+    mutationFn: async ({ username, otp }) => {
+      return await verifyForgotPasswordOTP({ username, otp });
+    },
+  });
+};
+
+export const useVerifyEmail = () => {
+  return useMutation({
+    mutationFn: async ({ email }) => {
+      return await verifyEmail({ email });
+    },
+  });
+};
+
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: async ({ email, newPassword }) => {
+      return await resetPassword({ email, newPassword });
+    },
   });
 };

@@ -20,13 +20,13 @@ import SignUp from "./components/Pages/SignUp";
 import SettingsOptions from "./components/Pages/SettingsOptions";
 import Settings from "./components/Pages/Settings";
 import ChangePassword from "./components/Pages/ChangePassword";
-import Login from "./components/Login/Login.jsx";
 import UserProfile from "./components/Pages/UserProfile.jsx";
 import PlayLists from "./components/Pages/PlayLists.jsx";
 import UserPlaylists from "./components/Pages/UserPlaylists.jsx";
 import CreatePlaylist from "./components/Pages/CreatePlaylist.jsx";
 import PlaylistViewPage from "./components/Pages/PlaylistViewPage.jsx";
 import ErrorPage from "./components/Pages/NotFoundPage.jsx";
+import ForgotPassword from "./components/Pages/ForgotPassword.jsx";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "account/signup",
         element: <SignUp />,
+      },
+      {
+        path: "account/forgot-password",
+        element: <ForgotPassword />,
       },
       {
         path: "/settings/profile/:username",
