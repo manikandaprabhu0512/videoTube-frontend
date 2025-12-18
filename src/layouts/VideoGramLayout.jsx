@@ -1,8 +1,7 @@
 import React, { useRef } from "react";
 import { Outlet } from "react-router-dom";
-// import { Header, HomeSideBar } from "../components";
 import Header from "../components/Header/Header";
-import Sidebar from "../components/SideBar/Testing";
+import Sidebar from "../components/SideBar/HomeSideBar";
 import { useSelector } from "react-redux";
 import BannerPopup from "../components/Popup/BannerPopup";
 

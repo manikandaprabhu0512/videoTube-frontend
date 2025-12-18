@@ -12,15 +12,20 @@ import {
   HandThumbUpIcon,
   ArrowDownTrayIcon,
   Bars3Icon,
+  ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSideBar } from "../../features/sidebar";
+import { useChannelSubscribed } from "../hooks/useSubscription";
 
 export default function Sidebar() {
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
 
   const Open = useSelector((state) => state.sidebar.visible);
   const user = JSON.parse(localStorage.getItem("auth"));
+
+  const { data: subscribedChannels } = useChannelSubscribed({ id: user?._id });
 
   return (
     <>
@@ -39,22 +44,37 @@ export default function Sidebar() {
               to="/"
               className="flex flex-col text-md items-center gap-1"
             />
-            <SidebarItemVertical
-              icon={<RectangleGroupIcon className="h-6 w-6" />}
-              label="Subscriptions"
-              to="/subscriptions"
-              className="flex flex-col text-md items-center gap-1"
-            />
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="flex flex-col text-md items-center gap-1 p-2 hover:bg-gray-100 rounded-lg w-full"
+            >
+              <RectangleGroupIcon className="h-6 w-6" />
+              <span className="flex items-center gap-1">
+                Subscriptions
+                <ChevronDownIcon
+                  className={`h-3 w-3 transition-transform ${
+                    isOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </span>
+            </button>
+            {isOpen && (
+              <div className="flex flex-col items-center bg-gray-50 py-2 gap-2 text-sm">
+                <Link to="/subscriptions/plans" className="hover:text-blue-600">
+                  Plans
+                </Link>
+                <Link
+                  to="/subscriptions/billing"
+                  className="hover:text-blue-600"
+                >
+                  Billing
+                </Link>
+              </div>
+            )}
             <SidebarItemVertical
               icon={<ClockIcon className="h-6 w-6" />}
               label="History"
               to="watch-history"
-              className="flex flex-col text-md items-center gap-1"
-            />
-            <SidebarItemVertical
-              icon={<RectangleStackIcon className="h-6 w-6" />}
-              label="Playlists"
-              to="/playlist"
               className="flex flex-col text-md items-center gap-1"
             />
             <SidebarItemVertical
@@ -93,11 +113,44 @@ export default function Sidebar() {
               label="Home"
               to="/"
             />
-            <SidebarItem
-              icon={<RectangleGroupIcon className="h-6 w-6" />}
-              label="Subscriptions"
-              to="/subscriptions"
-            />
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="flex text-md gap-2 p-2 hover:bg-gray-800 rounded-lg w-full"
+            >
+              <span className="flex items-center gap-1">
+                <RectangleGroupIcon className="h-6 w-6" />
+                Subscriptions
+                <ChevronDownIcon
+                  className={`h-3 w-3 transition-transform ${
+                    isOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </span>
+            </button>
+            {isOpen && (
+              <div className="flex flex-col mt-1 w-full">
+                <div className="max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
+                  {subscribedChannels?.map((channel) => (
+                    <Link
+                      key={channel._id}
+                      to={`/user/${channel.username}`}
+                      className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 active:bg-gray-200 rounded-lg transition-colors group"
+                    >
+                      <div className="flex-shrink-0 h-7 w-7 rounded-full overflow-hidden bg-gray-200">
+                        <img
+                          src={channel.avatar.url || "./dummy-avatar.png"}
+                          alt={channel.username}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <span className="text-sm font-normal dark:text-gray-300 text-gray-700 truncate group-hover:text-black">
+                        {channel.username}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
             <hr className="border-t border-gray-200"></hr>
             <SidebarItem
               icon={<ClockIcon className="h-6 w-6" />}

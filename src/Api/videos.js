@@ -1,6 +1,6 @@
 import API from "./api";
 
-export const fetchAllVideos = async ({ page = 1, limit = 1, query = "" }) => {
+export const fetchAllVideos = async ({ page = 1, limit = 10, query = "" }) => {
   try {
     const res = await API.get(
       `/videos?page=${page}&limit=${limit}&query=${query}`
